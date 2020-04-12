@@ -18,6 +18,6 @@ jobs:
         with:
           java-version: 1.13
       - name: Maven Package
-        run: mvn -B clean package -DskipTests
+        run: mvn -B clean package -DskipTests -Dtoken=${{ secrets.ACCESS_TOKEN }}
       - name: Maven Verify
-        run: mvn -B clean verify -Dtoken=${{ secrets.ACCESS_TOKEN }}
+        run: mvn -B clean verify
