@@ -18,7 +18,9 @@ jobs:
         with:
           java-version: 1.13
       - name: Maven Package
-        run: mvn -B clean package -DskipTests -Dtoken=${{ secrets.GITHUB_TOKEN }}
+        run: mvn -B clean package -DskipTests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Maven Verify
         run: mvn -B clean verify
 
