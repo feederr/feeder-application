@@ -37,6 +37,10 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.13
+      - name: Maven Package
+        run: mvn -B clean package -DskipTests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Login to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Build Docker image
