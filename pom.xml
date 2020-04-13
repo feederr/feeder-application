@@ -55,14 +55,6 @@
           <violationSeverity>warning</violationSeverity>
           <failOnViolation>true</failOnViolation>
         </configuration>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
 
     </plugins>
