@@ -1,0 +1,30 @@
+databaseChangeLog:
+
+  - logicalFilePath: no-path
+
+  - changeSet:
+      id: create-item
+      author: voroshen.av@gmail.com
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                  name: it_id
+                  type: BINARY(16)
+              - column:
+                  name: it_description
+                  type: VARCHAR(255)
+              - column:
+                  name: it_link
+                  type: VARCHAR(255)
+              - column:
+                  name: it_title
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: it_pub_date
+                  type: datetime
+            tableName: item
