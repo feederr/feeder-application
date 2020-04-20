@@ -16,6 +16,7 @@ spring:
         dialect: org.hibernate.dialect.MySQL57Dialect
         show_sql: true
         format_sql: true
+    open-in-view: false
 
   datasource:
     name: feeder-application-mysql
@@ -26,6 +27,12 @@ spring:
   liquibase:
     contexts: ${spring.profiles.active}
     enabled: true
+
+security:
+  oauth2:
+    resource:
+      jwt:
+        key-value: local_signing_key
 
 logging:
   level:
