@@ -1,0 +1,37 @@
+### CREATE ITEM
+
+POST {{application}}/source HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "url": "https://test.com/test/path",
+  "tags": ["test","test2"],
+  "title": "test"
+}
+
+> {%
+    if(response.body["id"]) {
+       client.global.set("sourceId", response.body.id);
+    }
+%}
+
+### GET ITEM
+
+GET {{application}}/source/{{sourceId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### GET ITEMS
+
+GET {{application}}/source HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### DELETE ITEM
+
+DELETE {{application}}/source/{{sourceId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
