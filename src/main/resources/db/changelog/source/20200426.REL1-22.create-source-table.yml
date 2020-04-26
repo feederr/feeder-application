@@ -1,4 +1,5 @@
 databaseChangeLog:
+  - logicalFilePath: no-path
   - changeSet:
       id: create-source
       author: dzmitriy.lebedzev@gmail.com
