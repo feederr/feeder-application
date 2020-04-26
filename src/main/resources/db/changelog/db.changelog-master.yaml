@@ -3,3 +3,6 @@ databaseChangeLog:
   - include:
       file: item/20200417.REL1-6.create-item-table.yaml
       relativeToChangelogFile: true
+  - include:
+      file: 20200426.REL1-22.create-source-table.yml
+      relativeToChangelogFile: true

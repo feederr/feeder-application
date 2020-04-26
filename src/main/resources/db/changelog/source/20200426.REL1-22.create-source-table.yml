@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - logicalFilePath: no-path
+  - changeSet:
+      id: create-source
+      author: dzmitriy.lebedzev@gmail.com
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  name: so_id
+                  type: BINARY(16)
+              - column:
+                  name: so_tags
+                  type: VARCHAR(255)
+              - column:
+                  name: so_title
+                  type: VARCHAR(255)
+              - column:
+                  name: so_url
+                  type: VARCHAR(255)
+            tableName: source
+
