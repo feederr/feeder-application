@@ -1,7 +1,6 @@
 package org.feeder.api.application.source.entity;
 
 import java.net.URL;
-import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 import javax.persistence.Column;
@@ -13,8 +12,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.feeder.api.core.converter.SetToStringConverter;
 import org.feeder.api.core.domain.BaseEntity;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 @Data
 @Entity
