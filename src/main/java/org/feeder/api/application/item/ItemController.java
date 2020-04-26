@@ -37,31 +37,31 @@ public class ItemController {
   public ResponseEntity<ItemResponseVO> create(@Valid @RequestBody final ItemRequestVO vo) {
     UUID id = UUID.randomUUID();
     return ResponseEntity.status(HttpStatus.CREATED).contentType(MediaType.APPLICATION_JSON)
-        .body(service.create(vo, id, new Object[0]));
+        .body(service.create(vo, id));
   }
 
   @GetMapping(ID_PATH)
   public ResponseEntity<ItemResponseVO> get(@PathVariable final UUID id) {
     return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
-        .body(service.get(id, new Object[0]));
+        .body(service.get(id));
   }
 
   @GetMapping
   public ResponseEntity<Page<ItemResponseVO>> getPage(@PageableDefault final Pageable pageable) {
     return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
-        .body(service.getAll(pageable, new Object[0]));
+        .body(service.getAll(pageable));
   }
 
   @PutMapping(ID_PATH)
   public ResponseEntity<ItemResponseVO> update(@PathVariable final UUID id,
       @Valid @RequestBody final ItemRequestVO vo) {
     return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
-        .body(service.update(vo, id, new Object[0]));
+        .body(service.update(vo, id));
   }
 
   @DeleteMapping(ID_PATH)
   public ResponseEntity<ItemResponseVO> delete(@PathVariable final UUID id) {
-    service.delete(id, new Object[0]);
+    service.delete(id);
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 }
