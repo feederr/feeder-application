@@ -1,8 +1,15 @@
 databaseChangeLog:
 
+  - logicalFilePath: no-path
+
   - include:
       file: item/20200417.REL1-6.create-item-table.yaml
       relativeToChangelogFile: true
+
   - include:
       file: source/20200426.REL1-22.create-source-table.yml
+      relativeToChangelogFile: true
+
+  - include:
+      file: uuid/20200501.REL1-33.create-functions-for-uuid-manipulations.yaml
       relativeToChangelogFile: true

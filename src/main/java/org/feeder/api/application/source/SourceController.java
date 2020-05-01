@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.feeder.api.application.source.service.SourceService;
 import org.feeder.api.application.source.vo.SourceRequestVO;
 import org.feeder.api.application.source.vo.SourceResponseVO;
+import org.feeder.api.core.util.UUIDUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -35,7 +36,7 @@ public class SourceController {
 
   @PostMapping
   public ResponseEntity<SourceResponseVO> create(@Valid @RequestBody final SourceRequestVO vo) {
-    UUID id = UUID.randomUUID();
+    UUID id = UUIDUtils.optimizedUUID();
     return ResponseEntity.status(HttpStatus.CREATED).contentType(MediaType.APPLICATION_JSON)
         .body(service.create(vo, id));
   }
