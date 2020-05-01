@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.feeder.api.application.item.service.ItemService;
 import org.feeder.api.application.item.vo.ItemRequestVO;
 import org.feeder.api.application.item.vo.ItemResponseVO;
+import org.feeder.api.core.util.UUIDUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -35,33 +36,38 @@ public class ItemController {
 
   @PostMapping
   public ResponseEntity<ItemResponseVO> create(@Valid @RequestBody final ItemRequestVO vo) {
-    UUID id = UUID.randomUUID();
-    return ResponseEntity.status(HttpStatus.CREATED).contentType(MediaType.APPLICATION_JSON)
+    UUID id = UUIDUtils.optimizedUUID();
+    return ResponseEntity.status(HttpStatus.CREATED)
+        .contentType(MediaType.APPLICATION_JSON)
         .body(service.create(vo, id));
   }
 
   @GetMapping(ID_PATH)
   public ResponseEntity<ItemResponseVO> get(@PathVariable final UUID id) {
-    return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
+    return ResponseEntity.status(HttpStatus.OK)
+        .contentType(MediaType.APPLICATION_JSON)
         .body(service.get(id));
   }
 
   @GetMapping
   public ResponseEntity<Page<ItemResponseVO>> getPage(@PageableDefault final Pageable pageable) {
-    return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
+    return ResponseEntity.status(HttpStatus.OK)
+        .contentType(MediaType.APPLICATION_JSON)
         .body(service.getAll(pageable));
   }
 
   @PutMapping(ID_PATH)
   public ResponseEntity<ItemResponseVO> update(@PathVariable final UUID id,
       @Valid @RequestBody final ItemRequestVO vo) {
-    return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
+    return ResponseEntity.status(HttpStatus.OK)
+        .contentType(MediaType.APPLICATION_JSON)
         .body(service.update(vo, id));
   }
 
   @DeleteMapping(ID_PATH)
   public ResponseEntity<ItemResponseVO> delete(@PathVariable final UUID id) {
     service.delete(id);
-    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    return ResponseEntity.status(HttpStatus.NO_CONTENT)
+        .build();
   }
 }
