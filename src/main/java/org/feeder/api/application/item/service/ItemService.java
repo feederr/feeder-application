@@ -31,24 +31,6 @@ public class ItemService extends BaseCrudService<Item, ItemRequestVO, ItemRespon
   }
 
   @Override
-  protected Item createEntity(ItemRequestVO vo, UUID id, Object... args) {
-
-    Item entity = mapper.toEntity(vo, id);
-
-    entity.setNew(true);
-
-    return repository.save(entity);
-  }
-
-  @Override
-  protected Item updateEntity(Item entity, ItemRequestVO vo, Object... args) {
-
-    mapper.updateEntity(entity, vo);
-
-    return repository.save(entity);
-  }
-
-  @Override
   protected Class<Item> getEntityClass() {
     return Item.class;
   }
