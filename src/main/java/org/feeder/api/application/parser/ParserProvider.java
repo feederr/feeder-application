@@ -9,15 +9,15 @@ import org.springframework.stereotype.Component;
 public class ParserProvider {
 
   public Parser provide(ParserType type) {
-    return switch (type) {
+    switch (type) {
       case RSS:
-        yield RssParser.getInstance();
+        return RssParser.getInstance();
       case ATOM:
-        yield AtomParser.getInstance();
+        return AtomParser.getInstance();
       default:
         throw new UnsupportedParserException(
             String.format("Unsupported parser type: [%s]", type)
         );
-    };
+    }
   }
 }
