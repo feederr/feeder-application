@@ -14,4 +14,5 @@ public class Item {
   private String link;
 
   private String pubDate;
+
 }
