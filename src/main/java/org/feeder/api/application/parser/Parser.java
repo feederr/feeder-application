@@ -1,7 +1,7 @@
 package org.feeder.api.application.parser;
 
 import java.io.InputStream;
-import org.feeder.api.application.channel.Channel;
+import org.feeder.api.application.parser.model.Channel;
 
 public interface Parser {
 

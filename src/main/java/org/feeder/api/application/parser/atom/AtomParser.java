@@ -1,10 +1,12 @@
-package org.feeder.api.application.parser;
+package org.feeder.api.application.parser.atom;
 
 import java.io.InputStream;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.feeder.api.application.channel.Channel;
+import org.feeder.api.application.parser.Parser;
+import org.feeder.api.application.parser.model.Channel;
 
+// Bill Pugh's singleton
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AtomParser implements Parser {
 

@@ -1,4 +1,4 @@
-package org.feeder.api.application.parser;
+package org.feeder.api.application.parser.exception;
 
 public class UnsupportedParserException extends RuntimeException {
 
