@@ -18,13 +18,4 @@ public class Channel {
   private String copyright;
 
   private String description;
-
-  private List<Item> items;
-
-  public void addItem(Item item) {
-    if (items == null) {
-      items = new ArrayList<>();
-    }
-    items.add(item);
-  }
 }
