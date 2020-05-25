@@ -1,0 +1,29 @@
+databaseChangeLog:
+
+  - logicalFilePath: no-path
+
+  - changeSet:
+      id: create-category
+      author: voroshen.av@gmail.com
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                  name: ca_id
+                  type: BINARY(16)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: ca_name
+                  type: VARCHAR(50)
+              - column:
+                  name: ca_created
+                  defaultValueComputed: now()
+                  type: datetime
+              - column:
+                  name: ca_modified
+                  defaultValueComputed: now()
+                  type: datetime
+            tableName: category

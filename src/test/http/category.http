@@ -1,0 +1,35 @@
+### CREATE CATEGORY
+
+POST {{application}}/category HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "name": "test_cat"
+}
+
+> {%
+    if(response.body["id"]) {
+       client.global.set("categoryId", response.body.id);
+    }
+%}
+
+### GET CATEGORY
+
+GET {{application}}/category/{{categoryId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### GET CATEGORYS
+
+GET {{application}}/category HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### DELETE CATEGORY
+
+DELETE {{application}}/category/{{categoryId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###

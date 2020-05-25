@@ -7,9 +7,9 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
-      file: source/20200426.REL1-22.create-source-table.yml
+      file: uuid/20200501.REL1-33.create-functions-for-uuid-manipulations.yaml
       relativeToChangelogFile: true
 
   - include:
-      file: uuid/20200501.REL1-33.create-functions-for-uuid-manipulations.yaml
+      file: category/20200525.REL1-48.create-category-table.yaml
       relativeToChangelogFile: true
