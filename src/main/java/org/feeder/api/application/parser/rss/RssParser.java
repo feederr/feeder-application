@@ -23,10 +23,11 @@ import javax.xml.stream.events.XMLEvent;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.feeder.api.application.item.entity.Item;
 import org.feeder.api.application.parser.Parser;
 import org.feeder.api.application.parser.exception.ParseFailedException;
 import org.feeder.api.application.parser.model.Channel;
-import org.feeder.api.application.parser.model.Item;
+import org.feeder.api.application.parser.util.PubDateConverter;
 
 // Bill Pugh's singleton
 @Slf4j
@@ -107,7 +108,7 @@ public class RssParser implements Parser {
             Item item = Item.builder()
                 .description(context.get(DESCRIPTION))
                 .link(context.get(LINK))
-                .pubDate(context.get(PUB_DATE))
+                .pubDate(PubDateConverter.toLocalDateTime(context.get(PUB_DATE)))
                 .title(context.get(TITLE))
                 .build();
 
@@ -115,7 +116,8 @@ public class RssParser implements Parser {
               throw new ParseFailedException("Incorrect tag structure in provided file");
             }
 
-            channel.addItem(item);
+            // TODO: add channel
+//            channel.addItem(item);
             context.clear();
           }
         }

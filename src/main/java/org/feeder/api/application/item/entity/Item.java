@@ -6,12 +6,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.feeder.api.core.domain.BaseEntity;
 
 @Data
 @Entity
+@Builder
 @Table(name = "item")
 @EqualsAndHashCode(callSuper = false)
 public class Item extends BaseEntity<UUID> {
