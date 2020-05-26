@@ -1,0 +1,21 @@
+databaseChangeLog:
+
+  - logicalFilePath: no-path
+
+  - changeSet:
+      id: add-image-url-column-to-category
+      author: voroshen.av@gmail.com
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - columnExists:
+                columnName: ca_image_url
+                tableName: category
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: ca_image_url
+                  afterColumn: ca_name
+                  type: VARCHAR(3000)
+            tableName: category
