@@ -29,6 +29,10 @@ public class Category extends BaseEntity<UUID> {
   @Column(name = "ca_name")
   private String name;
 
+  @Size(max = 3000)
+  @Column(name = "ca_image_url")
+  private String imageUrl;
+
   @EqualsAndHashCode.Exclude
   @CreatedDate
   @Column(name = "ca_created", updatable = false)

@@ -1,0 +1,128 @@
+databaseChangeLog:
+
+  - logicalFilePath: no-path
+
+  - changeSet:
+      id: predefine-categories
+      author: voroshen.av@gmail.com
+      changes:
+        - insert:
+            columns:
+              - column:
+                  name: ca_id
+                  valueComputed: ${optimized_uuid}
+              - column:
+                  name: ca_name
+                  value: Sport
+              - column:
+                  name: ca_image_url
+                  value: https://www.dwsports.com/on/demandware.static/-/Sites-DWS-Master-Catalog/default/dwb7826af7/products/images/065036102_01.jpg
+            tableName:  category
+        - insert:
+            columns:
+              - column:
+                  name: ca_id
+                  valueComputed: ${optimized_uuid}
+              - column:
+                  name: ca_name
+                  value: Tech
+              - column:
+                  name: ca_image_url
+                  value: https://previews.123rf.com/images/monsitj/monsitj1704/monsitj170400016/75476966-3d-rendering-futuristic-blue-circuit-board-background-illustration.jpg
+            tableName:  category
+        - insert:
+            columns:
+              - column:
+                  name: ca_id
+                  valueComputed: ${optimized_uuid}
+              - column:
+                  name: ca_name
+                  value: Health
+              - column:
+                  name: ca_image_url
+                  value: https://www.healthimprovements.org/wp-content/uploads/2018/09/Keep-Fit-Qigong-Self-Massage-for-Health-Improvement.jpg
+            tableName:  category
+        - insert:
+            columns:
+              - column:
+                  name: ca_id
+                  valueComputed: ${optimized_uuid}
+              - column:
+                  name: ca_name
+                  value: Science
+              - column:
+                  name: ca_image_url
+                  value: https://www.training.com.au/wp-content/uploads/science-stem-feature.png
+            tableName:  category
+        - insert:
+            columns:
+              - column:
+                  name: ca_id
+                  valueComputed: ${optimized_uuid}
+              - column:
+                  name: ca_name
+                  value: Politics
+              - column:
+                  name: ca_image_url
+                  value: https://upload.wikimedia.org/wikipedia/commons/3/3e/Women_voter_outreach_1935_English_Yiddish.jpg
+            tableName:  category
+        - insert:
+            columns:
+              - column:
+                  name: ca_id
+                  valueComputed: ${optimized_uuid}
+              - column:
+                  name: ca_name
+                  value: Environment
+              - column:
+                  name: ca_image_url
+                  value: https://liverur.eu/wp-content/uploads/2019/12/Environment-in-Europe.jpg
+            tableName:  category
+        - insert:
+            columns:
+              - column:
+                  name: ca_id
+                  valueComputed: ${optimized_uuid}
+              - column:
+                  name: ca_name
+                  value: Fashion
+              - column:
+                  name: ca_image_url
+                  value: https://upload.wikimedia.org/wikipedia/commons/9/92/Etalage_van_modewinkel_-_Window_of_a_fashion_boutique_%286808272877%29.jpg
+            tableName:  category
+        - insert:
+            columns:
+              - column:
+                  name: ca_id
+                  valueComputed: ${optimized_uuid}
+              - column:
+                  name: ca_name
+                  value: National
+              - column:
+                  name: ca_image_url
+                  value: https://r-cf.bstatic.com/images/hotel/max1024x768/205/205831508.jpg
+            tableName:  category
+        - insert:
+            columns:
+              - column:
+                  name: ca_id
+                  valueComputed: ${optimized_uuid}
+              - column:
+                  name: ca_name
+                  value: Gadget
+              - column:
+                  name: ca_image_url
+                  value: https://resh.edu.ru/uploads/lesson_extract/6346/20190404151913/OEBPS/objects/m_engl_10_47_1/5c5eb0e18b141757fe1e6fd4.jpg
+            tableName:  category
+        - insert:
+            columns:
+              - column:
+                  name: ca_id
+                  valueComputed: ${optimized_uuid}
+              - column:
+                  name: ca_name
+                  value: Lifestyle
+              - column:
+                  name: ca_image_url
+                  value: https://www.etoday.ru/assets/2016/1/21/7a3d10b88b7017d796490c8106d91f4d.jpg
+            tableName:  category
