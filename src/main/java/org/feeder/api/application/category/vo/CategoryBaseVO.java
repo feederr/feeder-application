@@ -11,5 +11,6 @@ public class CategoryBaseVO {
   @NotEmpty
   private String name;
 
+  @Size(max = 3000)
   private String imageUrl;
 }
