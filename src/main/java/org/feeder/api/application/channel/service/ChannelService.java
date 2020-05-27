@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.feeder.api.application.category.service.CategoryService;
 import org.feeder.api.application.channel.ChannelMapper;
 import org.feeder.api.application.channel.ChannelRepository;
 import org.feeder.api.application.channel.entity.Channel;
@@ -32,6 +33,8 @@ public class ChannelService extends BaseCrudService<Channel, ChannelRequestVO, C
 
   private final ParserProvider provider;
 
+  private final CategoryService categoryService;
+
   @Override
   protected Channel createEntity(ChannelRequestVO vo, UUID id, Object... args) {
 
@@ -45,7 +48,7 @@ public class ChannelService extends BaseCrudService<Channel, ChannelRequestVO, C
       entity.setId(id);
       entity.getItems().forEach(item -> {
         item.setId(UUIDUtils.optimizedUUID());
-        item.setChannel(entity);
+        item.setNew(true);
       });
       entity.setNew(true);
 

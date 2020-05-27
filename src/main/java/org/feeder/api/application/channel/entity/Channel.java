@@ -3,7 +3,6 @@ package org.feeder.api.application.channel.entity;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,6 +15,7 @@ import javax.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.feeder.api.application.item.entity.Item;
 import org.feeder.api.core.domain.BaseEntity;
 
@@ -57,12 +57,14 @@ public class Channel extends BaseEntity<UUID> {
       cascade = CascadeType.ALL,
       orphanRemoval = true
   )
-  private List<Item> items;
+  @ToString.Exclude
+  @Builder.Default
+  private List<Item> items = new ArrayList<>();
 
   // TODO: add categories ManyToMany
 //  @OneToMany(
 //      fetch = FetchType.LAZY,
-//      cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST}
+//      cascade = {CascadeType.MERGE, CascadeType.PERSIST}
 //  )
 //  @JoinColumn(name = "ch_id")
 //  private List<Category> categories;
@@ -75,9 +77,12 @@ public class Channel extends BaseEntity<UUID> {
 //  private Image image;
 
   public void addItem(Item item) {
-    if (Objects.isNull(items)) {
-      items = new ArrayList<>();
-    }
     items.add(item);
+    item.setChannel(this);
+  }
+
+  public void removeItem(Item item) {
+    items.remove(item);
+    item.setChannel(null);
   }
 }
