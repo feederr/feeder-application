@@ -15,16 +15,37 @@ databaseChangeLog:
                   type: BINARY(16)
               - column:
                   name: it_description
-                  type: VARCHAR(255)
+                  type: VARCHAR(5000)
               - column:
                   name: it_link
-                  type: VARCHAR(255)
+                  type: VARCHAR(3000)
               - column:
                   name: it_title
                   type: VARCHAR(255)
               - column:
                   constraints:
                     nullable: false
+                  name: ch_id
+                  type: BINARY(16)
+              - column:
+                  constraints:
+                    nullable: false
                   name: it_pub_date
                   type: datetime
             tableName: item
+
+  - changeSet:
+      id: create-foreign-key-to-channel
+      author: voroshen.av@gmail.com
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: fk_item_ch_id
+            baseColumnNames: ch_id
+            baseTableName: item
+            referencedColumnNames: ch_id
+            referencedTableName:  channel
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: CASCADE
+            onUpdate: CASCADE
+            validate:  true

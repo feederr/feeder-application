@@ -1,4 +1,4 @@
-package org.feeder.api.application.category.entity;
+package org.feeder.api.application.channel.image.entity;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -6,8 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.feeder.api.core.domain.BaseEntity;
@@ -16,31 +16,29 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 @Data
 @Entity
-@Table(name = "category")
+@Builder
+@Table(name = "image")
 @EqualsAndHashCode(callSuper = false)
-public class Category extends BaseEntity<UUID> {
+public class Image extends BaseEntity<UUID> {
 
-  @EqualsAndHashCode.Exclude
   @Id
-  @Column(name = "ca_id")
+  @Column(name = "im_id")
   private UUID id;
 
-  @NotEmpty
-  @Size(max = 50)
-  @Column(name = "ca_name")
-  private String name;
+  @Column(name = "im_title")
+  private String title;
 
   @Size(max = 3000)
-  @Column(name = "ca_image_url")
-  private String imageUrl;
+  @Column(name = "im_url")
+  private String url;
 
   @EqualsAndHashCode.Exclude
   @CreatedDate
-  @Column(name = "ca_created", updatable = false)
+  @Column(name = "im_created", updatable = false)
   private LocalDateTime created;
 
   @EqualsAndHashCode.Exclude
   @LastModifiedDate
-  @Column(name = "ca_modified")
+  @Column(name = "im_modified")
   private LocalDateTime modified;
 }

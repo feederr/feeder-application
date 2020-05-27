@@ -13,7 +13,9 @@ public enum SupportedRssTags {
   COPYRIGHT("copyright"),
   LINK("link"),
   ITEM("item"),
-  PUB_DATE("pubDate");
+  PUB_DATE("pubDate"),
+  AUTHOR("author"),
+  IMAGE("image");
 
   private final String value;
 
@@ -43,5 +45,13 @@ public enum SupportedRssTags {
 
   public static boolean isCopyright(String tag) {
     return COPYRIGHT.value.equals(tag);
+  }
+
+  public static boolean isAuthor(String tag) {
+    return AUTHOR.value.equals(tag);
+  }
+
+  public static boolean isImage(String tag) {
+    return IMAGE.value.equals(tag);
   }
 }

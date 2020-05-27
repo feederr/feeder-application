@@ -1,0 +1,35 @@
+### CREATE CHANNEL
+
+POST {{application}}/channel HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "link": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml"
+}
+
+> {%
+    if(response.body["id"]) {
+       client.global.set("channelId", response.body.id);
+    }
+%}
+
+### GET CHANNEL
+
+GET {{application}}/channel/{{channelId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### GET CHANNELS
+
+GET {{application}}/channel HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### DELETE CHANNEL
+
+DELETE {{application}}/channel/{{channelId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
