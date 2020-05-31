@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -51,10 +52,11 @@ public class CategoryController {
 
   @GetMapping
   public ResponseEntity<Page<CategoryResponseVO>> getPage(
+      @RequestParam(name = "q", required = false) String predicate,
       @PageableDefault final Pageable pageable) {
     return ResponseEntity.status(HttpStatus.OK)
         .contentType(MediaType.APPLICATION_JSON)
-        .body(service.getAll(pageable));
+        .body(service.getAllBySpec(predicate, pageable));
   }
 
   @PutMapping(ID_PATH)

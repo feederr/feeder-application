@@ -8,8 +8,8 @@ import org.feeder.api.application.category.entity.Category;
 import org.feeder.api.application.category.vo.CategoryRequestVO;
 import org.feeder.api.application.category.vo.CategoryResponseVO;
 import org.feeder.api.core.mapper.BaseMapper;
+import org.feeder.api.core.search.JpaSpecificationRepository;
 import org.feeder.api.core.service.BaseCrudService;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +35,7 @@ public class CategoryService extends
   }
 
   @Override
-  protected JpaRepository<Category, UUID> getRepository() {
+  protected JpaSpecificationRepository<Category, UUID> getRepository() {
     return repository;
   }
 
