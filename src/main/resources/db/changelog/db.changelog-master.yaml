@@ -3,11 +3,19 @@ databaseChangeLog:
   - logicalFilePath: no-path
 
   - include:
-      file: item/20200417.REL1-6.create-item-table.yaml
+      file: uuid/20200501.REL1-33.create-functions-for-uuid-manipulations.yaml
       relativeToChangelogFile: true
 
   - include:
-      file: uuid/20200501.REL1-33.create-functions-for-uuid-manipulations.yaml
+      file: channel/20200527.REL1-47.create-channel-table.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: image/20200527.REL1-47.create-image-table.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: item/20200417.REL1-6.create-item-table.yaml
       relativeToChangelogFile: true
 
   - include:
@@ -20,4 +28,8 @@ databaseChangeLog:
 
   - include:
       file: category/20200526.REL1-57.predefine-categories.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: channel_category/20200530.REL1-47.add-channel-category.mapping-table.yaml
       relativeToChangelogFile: true

@@ -1,0 +1,53 @@
+databaseChangeLog:
+
+  - logicalFilePath: no-path
+
+  - changeSet:
+      id: create-channel-category
+      author: voroshen.av@gmail.com
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: ch_id
+                  type: BINARY(16)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: ca_id
+                  type: BINARY(16)
+            tableName: channel_category
+
+  - changeSet:
+      id: create-foreign-key-to-channel-in-channel_category
+      author: voroshen.av@gmail.com
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: fk_channel_category_ch_id
+            baseColumnNames: ch_id
+            baseTableName: channel_category
+            referencedColumnNames: ch_id
+            referencedTableName:  channel
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: CASCADE
+            onUpdate: CASCADE
+            validate:  true
+
+  - changeSet:
+      id: create-foreign-key-to-category-in-channel_category
+      author: voroshen.av@gmail.com
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: fk_channel_category_ca_id
+            baseColumnNames: ca_id
+            baseTableName: channel_category
+            referencedColumnNames: ca_id
+            referencedTableName:  category
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: CASCADE
+            onUpdate: CASCADE
+            validate:  true

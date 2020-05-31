@@ -56,6 +56,15 @@ public class ItemController {
         .body(service.getAll(pageable));
   }
 
+  @GetMapping("/channel" + ID_PATH)
+  public ResponseEntity<Page<ItemResponseVO>> getPageByChannel(
+      @PathVariable UUID id,
+      @PageableDefault final Pageable pageable) {
+    return ResponseEntity.status(HttpStatus.OK)
+        .contentType(MediaType.APPLICATION_JSON)
+        .body(service.getAllByChannel(id, pageable));
+  }
+
   @PutMapping(ID_PATH)
   public ResponseEntity<ItemResponseVO> update(@PathVariable final UUID id,
       @Valid @RequestBody final ItemRequestVO vo) {

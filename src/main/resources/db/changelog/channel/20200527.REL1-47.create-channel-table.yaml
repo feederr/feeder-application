@@ -1,0 +1,48 @@
+databaseChangeLog:
+
+  - logicalFilePath: no-path
+
+  - changeSet:
+      id: create-channel
+      author: voroshen.av@gmail.com
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                  name: ch_id
+                  type: BINARY(16)
+              - column:
+                  name: ch_description
+                  type: VARCHAR(5000)
+              - column:
+                  name: ch_link
+                  type: VARCHAR(500)
+              - column:
+                  name: ch_title
+                  type: VARCHAR(255)
+              - column:
+                  name: ch_author
+                  type: VARCHAR(255)
+              - column:
+                  name: ch_copyright
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: ch_pub_date
+                  type: datetime
+            tableName: channel
+
+  - changeSet:
+      id: create-unique-index-on-channel-link
+      author: voroshen.av@gmail.com
+      changes:
+        - createIndex:
+            columns:
+              - column:
+                  name: ch_link
+            indexName: idx_channel_link
+            tableName: channel
+            unique: true

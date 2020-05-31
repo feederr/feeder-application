@@ -1,0 +1,30 @@
+databaseChangeLog:
+
+  - logicalFilePath: no-path
+
+  - changeSet:
+      id: create-image
+      author: voroshen.av@gmail.com
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                  name: im_id
+                  type: BINARY(16)
+              - column:
+                  name: im_title
+                  type: VARCHAR(255)
+              - column:
+                  name: im_url
+                  type: VARCHAR(3000)
+              - column:
+                  name: im_created
+                  defaultValueComputed: now()
+                  type: datetime
+              - column:
+                  name: im_modified
+                  defaultValueComputed: now()
+                  type: datetime
+            tableName: image

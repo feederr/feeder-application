@@ -28,6 +28,10 @@ spring:
     contexts: ${spring.profiles.active}
     enabled: true
 
+  devtools:
+    livereload:
+      enabled: false
+
 security:
   oauth2:
     resource:

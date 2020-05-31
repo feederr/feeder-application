@@ -1,16 +1,19 @@
 package org.feeder.api.application.parser.rss;
 
+import static org.feeder.api.application.parser.rss.SupportedRssTags.AUTHOR;
 import static org.feeder.api.application.parser.rss.SupportedRssTags.COPYRIGHT;
 import static org.feeder.api.application.parser.rss.SupportedRssTags.DESCRIPTION;
 import static org.feeder.api.application.parser.rss.SupportedRssTags.LINK;
 import static org.feeder.api.application.parser.rss.SupportedRssTags.PUB_DATE;
 import static org.feeder.api.application.parser.rss.SupportedRssTags.TITLE;
+import static org.feeder.api.application.parser.rss.SupportedRssTags.isAuthor;
 import static org.feeder.api.application.parser.rss.SupportedRssTags.isCopyright;
 import static org.feeder.api.application.parser.rss.SupportedRssTags.isDescription;
 import static org.feeder.api.application.parser.rss.SupportedRssTags.isItem;
 import static org.feeder.api.application.parser.rss.SupportedRssTags.isLink;
 import static org.feeder.api.application.parser.rss.SupportedRssTags.isPubDate;
 import static org.feeder.api.application.parser.rss.SupportedRssTags.isTitle;
+import static org.feeder.api.application.parser.util.PubDateConverter.toLocalDateTime;
 import static org.feeder.api.application.parser.util.XmlHelper.extractTagName;
 import static org.feeder.api.application.parser.util.XmlHelper.extractTagValue;
 import static org.feeder.api.application.parser.util.XmlHelper.isEndTag;
@@ -23,26 +26,15 @@ import javax.xml.stream.events.XMLEvent;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.feeder.api.application.channel.entity.Channel;
 import org.feeder.api.application.item.entity.Item;
 import org.feeder.api.application.parser.Parser;
 import org.feeder.api.application.parser.exception.ParseFailedException;
-import org.feeder.api.application.parser.model.Channel;
-import org.feeder.api.application.parser.util.PubDateConverter;
 
 // Bill Pugh's singleton
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RssParser implements Parser {
-
-  /*
-    Temporary NOTE:
-
-    URL url = new URL("https://rss.art19.com/the-bill-simmons-podcast");
-    URLConnection urlConnection = url.openConnection();
-    String contentType = urlConnection.getContentType();
-
-    ^ guide on how to determine content type
-   */
 
   private static class RssParserLazyHolder {
 
@@ -53,6 +45,7 @@ public class RssParser implements Parser {
     return RssParserLazyHolder.INSTANCE;
   }
 
+  // TODO: add image
   @Override
   public Channel parse(InputStream is) {
 
@@ -78,7 +71,8 @@ public class RssParser implements Parser {
                 .copyright(context.get(COPYRIGHT))
                 .description(context.get(DESCRIPTION))
                 .link(context.get(LINK))
-                .pubDate(context.get(PUB_DATE))
+                .pubDate(toLocalDateTime(context.get(PUB_DATE)))
+                .author(context.get(AUTHOR))
                 .title(context.get(TITLE))
                 .build();
 
@@ -94,6 +88,8 @@ public class RssParser implements Parser {
             context.put(PUB_DATE, extractTagValue(reader));
           } else if (isTitle(tagName)) {
             context.put(TITLE, extractTagValue(reader));
+          } else if (isAuthor(tagName)) {
+            context.put(AUTHOR, extractTagValue(reader));
           }
 
           continue;
@@ -108,7 +104,7 @@ public class RssParser implements Parser {
             Item item = Item.builder()
                 .description(context.get(DESCRIPTION))
                 .link(context.get(LINK))
-                .pubDate(PubDateConverter.toLocalDateTime(context.get(PUB_DATE)))
+                .pubDate(toLocalDateTime(context.get(PUB_DATE)))
                 .title(context.get(TITLE))
                 .build();
 
@@ -116,8 +112,7 @@ public class RssParser implements Parser {
               throw new ParseFailedException("Incorrect tag structure in provided file");
             }
 
-            // TODO: add channel
-//            channel.addItem(item);
+            channel.addItem(item);
             context.clear();
           }
         }
@@ -125,7 +120,7 @@ public class RssParser implements Parser {
 
     } catch (XMLStreamException ex) {
       log.warn("Parsing failed with: {}", ex.getMessage(), ex);
-      throw new ParseFailedException(ex);
+      throw new ParseFailedException("Parsing failed", ex);
     }
 
     return channel;
