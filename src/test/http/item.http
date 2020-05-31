@@ -29,12 +29,6 @@ GET {{application}}/item HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
-### GET ITEMS BY CHANNEL
-
-GET {{application}}/item/channel/{channelId} HTTP/1.1
-Content-Type: application/json
-Authorization: Bearer {{accessToken}}
-
 ### DELETE ITEM
 
 DELETE {{application}}/item/{{itemId}} HTTP/1.1

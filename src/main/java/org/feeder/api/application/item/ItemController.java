@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -50,19 +51,12 @@ public class ItemController {
   }
 
   @GetMapping
-  public ResponseEntity<Page<ItemResponseVO>> getPage(@PageableDefault final Pageable pageable) {
-    return ResponseEntity.status(HttpStatus.OK)
-        .contentType(MediaType.APPLICATION_JSON)
-        .body(service.getAll(pageable));
-  }
-
-  @GetMapping("/channel" + ID_PATH)
-  public ResponseEntity<Page<ItemResponseVO>> getPageByChannel(
-      @PathVariable UUID id,
+  public ResponseEntity<Page<ItemResponseVO>> getPage(
+      @RequestParam(name = "q", required = false) String predicate,
       @PageableDefault final Pageable pageable) {
     return ResponseEntity.status(HttpStatus.OK)
         .contentType(MediaType.APPLICATION_JSON)
-        .body(service.getAllByChannel(id, pageable));
+        .body(service.getAllBySpec(predicate, pageable));
   }
 
   @PutMapping(ID_PATH)
