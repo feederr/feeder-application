@@ -3,6 +3,7 @@ package org.feeder.api.application.channel;
 import static org.feeder.api.application.channel.ChannelController.CHANNEL_PATH;
 import java.util.UUID;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.feeder.api.application.channel.service.ChannelService;
 import org.feeder.api.application.channel.vo.ChannelRequestVO;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,12 +56,40 @@ public class ChannelController {
         .body(service.getAll(pageable));
   }
 
-  @PutMapping(ID_PATH)
-  public ResponseEntity<ChannelResponseVO> update(@PathVariable final UUID id,
-      @Valid @RequestBody final ChannelRequestVO vo) {
+  @GetMapping("/category" + ID_PATH)
+  public ResponseEntity<Page<ChannelResponseVO>> getPageByCategory(
+      @PathVariable final UUID id,
+      @PageableDefault final Pageable pageable) {
     return ResponseEntity.status(HttpStatus.OK)
         .contentType(MediaType.APPLICATION_JSON)
-        .body(service.update(vo, id));
+        .body(service.getAllByCategory(id, pageable));
+  }
+
+  @GetMapping("/description/{description}")
+  public ResponseEntity<Page<ChannelResponseVO>> getPageByDescription(
+      @PathVariable @NotBlank final String description,
+      @PageableDefault final Pageable pageable) {
+    return ResponseEntity.status(HttpStatus.OK)
+        .contentType(MediaType.APPLICATION_JSON)
+        .body(service.getAllByDescription(description, pageable));
+  }
+
+  @GetMapping("/title/{title}")
+  public ResponseEntity<Page<ChannelResponseVO>> getPageByTitle(
+      @PathVariable @NotBlank final String title,
+      @PageableDefault final Pageable pageable) {
+    return ResponseEntity.status(HttpStatus.OK)
+        .contentType(MediaType.APPLICATION_JSON)
+        .body(service.getAllByTitle(title, pageable));
+  }
+
+  @GetMapping("/author/{author}")
+  public ResponseEntity<Page<ChannelResponseVO>> getPageByAuthor(
+      @PathVariable @NotBlank final String author,
+      @PageableDefault final Pageable pageable) {
+    return ResponseEntity.status(HttpStatus.OK)
+        .contentType(MediaType.APPLICATION_JSON)
+        .body(service.getAllByAuthor(author, pageable));
   }
 
   @DeleteMapping(ID_PATH)

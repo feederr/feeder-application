@@ -29,3 +29,7 @@ databaseChangeLog:
   - include:
       file: category/20200526.REL1-57.predefine-categories.yaml
       relativeToChangelogFile: true
+
+  - include:
+      file: channel_category/20200530.REL1-47.add-channel-category.mapping-table.yaml
+      relativeToChangelogFile: true

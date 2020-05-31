@@ -5,7 +5,6 @@ import java.util.UUID;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-// TODO: add categories
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class ChannelRequestVO extends ChannelBaseVO {

@@ -10,9 +10,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.feeder.api.application.channel.entity.Channel;
 import org.feeder.api.core.domain.BaseEntity;
@@ -22,6 +24,8 @@ import org.feeder.api.core.domain.BaseEntity;
 @Builder
 @Table(name = "item")
 @EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
+@AllArgsConstructor
 public class Item extends BaseEntity<UUID> {
 
   @EqualsAndHashCode.Exclude
