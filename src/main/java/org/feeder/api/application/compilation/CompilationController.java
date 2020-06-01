@@ -1,12 +1,12 @@
-package org.feeder.api.application.category;
+package org.feeder.api.application.compilation;
 
-import static org.feeder.api.application.category.CategoryController.CATEGORY_PATH;
+import static org.feeder.api.application.compilation.CompilationController.COMPILATION_PATH;
 import java.util.UUID;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.feeder.api.application.category.service.CategoryService;
-import org.feeder.api.application.category.vo.CategoryRequestVO;
-import org.feeder.api.application.category.vo.CategoryResponseVO;
+import org.feeder.api.application.compilation.sevice.CompilationService;
+import org.feeder.api.application.compilation.vo.CompilationRequestVO;
+import org.feeder.api.application.compilation.vo.CompilationResponseVO;
 import org.feeder.api.core.util.UUIDUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,17 +26,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(CATEGORY_PATH)
-public class CategoryController {
+@RequestMapping(COMPILATION_PATH)
+public class CompilationController {
 
-  protected static final String CATEGORY_PATH = "/category";
+  protected static final String COMPILATION_PATH = "/compilation";
 
   private static final String ID_PATH = "/{id}";
 
-  private final CategoryService service;
+  private final CompilationService service;
 
   @PostMapping
-  public ResponseEntity<CategoryResponseVO> create(@Valid @RequestBody final CategoryRequestVO vo) {
+  public ResponseEntity<CompilationResponseVO> create(
+      @Valid @RequestBody final CompilationRequestVO vo) {
     UUID id = UUIDUtils.optimizedUUID();
     return ResponseEntity.status(HttpStatus.CREATED)
         .contentType(MediaType.APPLICATION_JSON)
@@ -44,14 +45,14 @@ public class CategoryController {
   }
 
   @GetMapping(ID_PATH)
-  public ResponseEntity<CategoryResponseVO> get(@PathVariable final UUID id) {
+  public ResponseEntity<CompilationResponseVO> get(@PathVariable final UUID id) {
     return ResponseEntity.status(HttpStatus.OK)
         .contentType(MediaType.APPLICATION_JSON)
         .body(service.get(id));
   }
 
   @GetMapping
-  public ResponseEntity<Page<CategoryResponseVO>> getPage(
+  public ResponseEntity<Page<CompilationResponseVO>> getPage(
       @RequestParam(name = "q", required = false) String predicate,
       @PageableDefault final Pageable pageable) {
     return ResponseEntity.status(HttpStatus.OK)
@@ -60,15 +61,15 @@ public class CategoryController {
   }
 
   @PutMapping(ID_PATH)
-  public ResponseEntity<CategoryResponseVO> update(@PathVariable final UUID id,
-      @Valid @RequestBody final CategoryRequestVO vo) {
+  public ResponseEntity<CompilationResponseVO> update(@PathVariable final UUID id,
+      @Valid @RequestBody final CompilationRequestVO vo) {
     return ResponseEntity.status(HttpStatus.OK)
         .contentType(MediaType.APPLICATION_JSON)
         .body(service.update(vo, id));
   }
 
   @DeleteMapping(ID_PATH)
-  public ResponseEntity<CategoryResponseVO> delete(@PathVariable final UUID id) {
+  public ResponseEntity<CompilationResponseVO> delete(@PathVariable final UUID id) {
     service.delete(id);
     return ResponseEntity.status(HttpStatus.NO_CONTENT)
         .build();

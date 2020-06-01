@@ -46,6 +46,7 @@ public class ChannelMapper implements BaseMapper<Channel, ChannelRequestVO, Chan
     return mapper.map(entity, ChannelResponseVO.class);
   }
 
+  // SRP violation, put logic about fetching channel information to service
   @Override
   public Channel toEntity(ChannelRequestVO vo, Object... args) {
 

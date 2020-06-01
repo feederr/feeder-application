@@ -33,3 +33,11 @@ databaseChangeLog:
   - include:
       file: channel_category/20200530.REL1-47.add-channel-category.mapping-table.yaml
       relativeToChangelogFile: true
+
+  - include:
+      file: compilation/20200601.REL1-50.add-compilation-table.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: compilation_channel/20200601.REL1-50.create-compilation-channel-mapping-table.yaml
+      relativeToChangelogFile: true
