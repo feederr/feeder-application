@@ -1,0 +1,45 @@
+databaseChangeLog:
+
+  - logicalFilePath: no-path
+
+  - changeSet:
+      id: create-compilation
+      author: voroshen.av@gmail.com
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                  name: co_id
+                  type: BINARY(16)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: co_name
+                  type: VARCHAR(50)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: tenant_id
+                  type: BINARY(16)
+              - column:
+                  name: co_created
+                  defaultValueComputed: now()
+                  type: datetime
+              - column:
+                  name: co_modified
+                  defaultValueComputed: now()
+                  type: datetime
+            tableName: compilation
+
+  - changeSet:
+      id: add-index-on-tenant-id-compilation
+      author: voroshen.av@gmail.com
+      changes:
+        - createIndex:
+            columns:
+              - column:
+                  name: tenant_id
+            indexName: idx_tenant_id_compilation
+            tableName: compilation

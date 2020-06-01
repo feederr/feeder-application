@@ -1,0 +1,38 @@
+### CREATE COMPILATION
+
+POST {{application}}/compilation HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "name": "compilation_name",
+  "channels": [
+    "11eaa44b-6886-d25b-bbee-afc73c94bbac"
+  ]
+}
+
+> {%
+    if(response.body["id"]) {
+       client.global.set("compilationId", response.body.id);
+    }
+%}
+
+### GET COMPILATION
+
+GET {{application}}/compilation/{{compilationId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### GET CHANNELS
+
+GET {{application}}/compilation HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### DELETE COMPILATION
+
+DELETE {{application}}/compilation/{{compilationId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###

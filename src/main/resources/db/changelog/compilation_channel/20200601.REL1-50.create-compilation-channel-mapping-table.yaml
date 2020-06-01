@@ -1,0 +1,53 @@
+databaseChangeLog:
+
+  - logicalFilePath: no-path
+
+  - changeSet:
+      id: create-compilation-channel-table
+      author: voroshen.av@gmail.com
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: co_id
+                  type: BINARY(16)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: ch_id
+                  type: BINARY(16)
+            tableName: compilation_channel
+
+  - changeSet:
+      id: create-foreign-key-to-channel-in-compilation_channel
+      author: voroshen.av@gmail.com
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: fk_compilation_channel_ch_id
+            baseColumnNames: ch_id
+            baseTableName: compilation_channel
+            referencedColumnNames: ch_id
+            referencedTableName:  channel
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: CASCADE
+            onUpdate: CASCADE
+            validate:  true
+
+  - changeSet:
+      id: create-foreign-key-to-compilation-in-compilation_channel
+      author: voroshen.av@gmail.com
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: fk_compilation_channel_ca_id
+            baseColumnNames: co_id
+            baseTableName: compilation_channel
+            referencedColumnNames: co_id
+            referencedTableName:  compilation
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: CASCADE
+            onUpdate: CASCADE
+            validate:  true

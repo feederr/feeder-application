@@ -7,7 +7,7 @@ Authorization: Bearer {{accessToken}}
 {
   "link": "https://www.yahoo.com/news/rss/world",
   "categories": [
-    "11eaa2a4-26d9-5659-b25a-0242ac1a0002"
+    "11eaa443-516f-1f09-9e8b-0242ac1a0002"
   ]
 }
 

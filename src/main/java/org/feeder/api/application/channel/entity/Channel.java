@@ -25,6 +25,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.feeder.api.application.category.entity.Category;
+import org.feeder.api.application.compilation.entity.Compilation;
 import org.feeder.api.application.item.entity.Item;
 import org.feeder.api.core.domain.BaseEntity;
 
@@ -83,6 +84,11 @@ public class Channel extends BaseEntity<UUID> {
   @Builder.Default
   @EqualsAndHashCode.Exclude
   private Set<Category> categories = new HashSet<>();
+
+  @ManyToMany(mappedBy = "channels")
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
+  private Set<Compilation> compilations = new HashSet<>();
 
   // TODO: add image
 //  @OneToOne(
