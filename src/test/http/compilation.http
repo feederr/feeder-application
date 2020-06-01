@@ -23,7 +23,7 @@ GET {{application}}/compilation/{{compilationId}} HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
-### GET CHANNELS
+### GET COMPILATIONS
 
 GET {{application}}/compilation HTTP/1.1
 Content-Type: application/json
