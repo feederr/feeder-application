@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 public class ChannelBaseVO {
 
-  @Size(max = 3000)
+  // TODO: update name to rss link
+  @Size(max = 500)
   private String link;
 }
