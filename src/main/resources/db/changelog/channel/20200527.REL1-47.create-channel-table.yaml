@@ -20,6 +20,9 @@ databaseChangeLog:
                   name: ch_link
                   type: VARCHAR(500)
               - column:
+                  name: ch_rss_link
+                  type: VARCHAR(500)
+              - column:
                   name: ch_title
                   type: VARCHAR(255)
               - column:

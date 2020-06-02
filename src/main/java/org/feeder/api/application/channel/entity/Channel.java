@@ -50,9 +50,13 @@ public class Channel extends BaseEntity<UUID> {
   @Column(name = "ch_description")
   private String description;
 
-  @Size(max = 3000)
+  @Size(max = 500)
   @Column(name = "ch_link")
   private String link;
+
+  @Size(max = 500)
+  @Column(name = "ch_rss_link")
+  private String rssLink;
 
   @Column(name = "ch_author")
   private String author;
@@ -103,9 +107,17 @@ public class Channel extends BaseEntity<UUID> {
     item.setChannel(this);
   }
 
+  public void addItems(List<Item> items) {
+    items.forEach(this::addItem);
+  }
+
   public void removeItem(Item item) {
     this.items.remove(item);
     item.setChannel(null);
+  }
+
+  public void removeItems(List<Item> items) {
+    items.forEach(this::removeItem);
   }
 
   public void addCategory(Category category) {

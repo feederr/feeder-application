@@ -43,6 +43,12 @@ feeder:
     hierarchy.authorityPattern: >
       *:client-admin > *:client-delete > *:client-write > *:client-read
       *:admin > *:delete > *:write > *:read
+  scheduling:
+    task:
+      update-channels:
+        cron: 0 */15 * * * *
+        batch-size: 10
+    enabled: true
 
 logging:
   level:
