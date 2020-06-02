@@ -73,40 +73,45 @@ public class ChannelService extends BaseCrudService<Channel, ChannelRequestVO, C
   }
 
   @Transactional(propagation = Propagation.REQUIRED)
-  public void update(Channel entity) {
+  public void update(UUID id) {
     try {
 
-      Channel recentChannel = getChannel(entity.getRssLink());
+      Optional<Channel> savedChannelOpt = repository.findById(id);
 
-      if (recentChannel.getPubDate().isAfter(entity.getPubDate())) {
+      if (savedChannelOpt.isPresent()) {
 
-        List<Item> recentItems = recentChannel.getItems();
-        List<Item> existingItems = entity.getItems();
-        List<Item> itemToAdd = new ArrayList<>();
+        Channel savedChannel = savedChannelOpt.get();
+        Channel recentChannel = getChannel(savedChannel.getRssLink());
 
-        for (Item recentItem : recentItems) {
-          if (isUniqueItem(existingItems, recentItem)) {
-            itemToAdd.add(recentItem);
+        if (recentChannel.getPubDate().isAfter(savedChannel.getPubDate())) {
+
+          List<Item> recentItems = recentChannel.getItems();
+          List<Item> existingItems = savedChannel.getItems();
+          List<Item> itemsToAdd = new ArrayList<>();
+
+          for (Item recentItem : recentItems) {
+            if (isUniqueItem(existingItems, recentItem)) {
+              itemsToAdd.add(recentItem);
+            }
           }
+
+          if (!itemsToAdd.isEmpty()) {
+            itemsToAdd.forEach(item -> {
+              item.setId(UUIDUtils.optimizedUUID());
+              item.setNew(true);
+            });
+          }
+
+          savedChannel.setPubDate(recentChannel.getPubDate());
+          savedChannel.setAuthor(recentChannel.getAuthor());
+          savedChannel.setDescription(recentChannel.getDescription());
+          savedChannel.setCopyright(recentChannel.getCopyright());
+          savedChannel.setTitle(recentChannel.getTitle());
+          savedChannel.addItems(itemsToAdd);
+
+          repository.save(savedChannel);
         }
-
-        if (!itemToAdd.isEmpty()) {
-          itemToAdd.forEach(item -> {
-            item.setId(UUIDUtils.optimizedUUID());
-            item.setNew(true);
-          });
-        }
-
-        entity.setPubDate(recentChannel.getPubDate());
-        entity.setAuthor(recentChannel.getAuthor());
-        entity.setDescription(recentChannel.getDescription());
-        entity.setCopyright(recentChannel.getCopyright());
-        entity.setTitle(recentChannel.getTitle());
-        entity.addItems(recentItems);
-
-        repository.save(entity);
       }
-
     } catch (IOException ex) {
       log.error("Unable to fetch channel contents", ex);
       throw new UncheckedIOException("Unable to fetch channel contents", ex);

@@ -1,6 +1,7 @@
 package org.feeder.api.application.channel.event;
 
 import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.feeder.api.application.channel.entity.Channel;
@@ -27,7 +28,7 @@ public class ChannelUpdateEventListener {
       log.warn("{} is null", ChannelUpdateEvent.class.getSimpleName());
     } else {
       log.debug("Updating channel contents for: \n{}", event.getPayload());
-      List<Channel> channelsToUpdate = event.getPayload();
+      List<UUID> channelsToUpdate = event.getPayload();
       channelsToUpdate.forEach(channelService::update);
     }
   }

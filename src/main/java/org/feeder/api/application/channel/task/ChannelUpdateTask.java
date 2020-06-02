@@ -1,5 +1,6 @@
 package org.feeder.api.application.channel.task;
 
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.feeder.api.application.channel.ChannelRepository;
@@ -38,7 +39,12 @@ public class ChannelUpdateTask {
       Page<Channel> channelPage = channelRepository.findAll(pageRequest);
 
       if (!channelPage.isEmpty()) {
-        ChannelUpdateEvent event = new ChannelUpdateEvent(this, channelPage.getContent());
+        ChannelUpdateEvent event = new ChannelUpdateEvent(this,
+            channelPage.getContent()
+                .stream()
+                .map(Channel::getId)
+                .collect(Collectors.toList())
+        );
         publisher.publishEvent(event);
       }
 
