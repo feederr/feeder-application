@@ -32,6 +32,14 @@ spring:
     livereload:
       enabled: false
 
+  kafka:
+    bootstrapServers: ${bootstrap.servers:localhost:9092}
+    consumer:
+      group-id: ${spring.application.name}
+    producer:
+      keySerializer: org.apache.kafka.common.serialization.StringSerializer
+      valueSerializer: org.springframework.kafka.support.serializer.JsonSerializer
+
 security:
   oauth2:
     resource:
@@ -39,6 +47,8 @@ security:
         key-value: local_signing_key
 
 feeder:
+  kafka:
+    enabled: true
   security:
     hierarchy.authorityPattern: >
       *:client-admin > *:client-delete > *:client-write > *:client-read
@@ -56,3 +66,4 @@ logging:
     org.springframework: WARN
     org.hibernate: WARN
     liquibase: WARN
+    org.apache.kafka: WARN
