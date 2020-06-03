@@ -1,0 +1,57 @@
+package org.feeder.api.application.channel.event.inbound;
+
+import java.util.List;
+import java.util.UUID;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.feeder.api.application.channel.event.outbound.ChannelEventProducer;
+import org.feeder.api.application.channel.service.ChannelService;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
+
+@Slf4j
+@Component
+@RequiredArgsConstructor
+public class ChannelApplicationEventListener {
+
+  private final ChannelEventProducer producer;
+
+  private final ChannelService channelService;
+
+  @Async
+  @EventListener
+  @Transactional(propagation = Propagation.REQUIRED)
+  public void listenChannelUpdateEvent(ChannelUpdateApplicationEvent event) {
+
+    if (event == null) {
+      log.warn("{} is null", ChannelUpdateApplicationEvent.class.getSimpleName());
+    } else {
+      log.debug("Updating channel contents for: \n{}", event.getChannelIds());
+      List<UUID> channelsToUpdate = event.getChannelIds();
+      channelsToUpdate.forEach(channelService::update);
+    }
+  }
+
+  @Async
+  @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+  public void listenChannelSubscribedEvent(ChannelSubscribedApplicationEvent event) {
+    producer.produceChannelSubscribedEvent(event.getChannelId());
+  }
+
+  @Async
+  @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+  public void listenChannelUnsubscribedEvent(ChannelUnsubscribedApplicationEvent event) {
+    producer.produceChannelUnsubscribedEvent(event.getChannelId());
+  }
+
+  @Async
+  @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+  public void listenChannelRemovedEvent(ChannelRemovedApplicationEvent event) {
+    producer.produceChannelRemovedEvent(event.getChannelId());
+  }
+}

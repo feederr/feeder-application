@@ -50,6 +50,10 @@ feeder:
   kafka:
     topics:
       item-viewed: communication-item-viewed
+      item-removed: communication-item-removed
+      channel-subscribed: communication-channel-subscribed
+      channel-unsubscribed: communication-channel-unsubscribed
+      channel-removed: communication-channel-removed
     enabled: true
   security:
     hierarchy.authorityPattern: >

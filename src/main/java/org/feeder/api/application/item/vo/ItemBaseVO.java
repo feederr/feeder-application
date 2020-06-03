@@ -1,6 +1,7 @@
 package org.feeder.api.application.item.vo;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 import lombok.Data;
 
 @Data
