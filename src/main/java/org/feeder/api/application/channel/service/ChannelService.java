@@ -18,6 +18,7 @@ import org.feeder.api.application.category.entity.Category;
 import org.feeder.api.application.channel.ChannelMapper;
 import org.feeder.api.application.channel.ChannelRepository;
 import org.feeder.api.application.channel.entity.Channel;
+import org.feeder.api.application.channel.event.inbound.ChannelRemovedApplicationEvent;
 import org.feeder.api.application.channel.vo.ChannelRequestVO;
 import org.feeder.api.application.channel.vo.ChannelResponseVO;
 import org.feeder.api.application.item.entity.Item;
@@ -28,6 +29,7 @@ import org.feeder.api.core.mapper.BaseMapper;
 import org.feeder.api.core.search.JpaSpecificationRepository;
 import org.feeder.api.core.service.BaseCrudService;
 import org.feeder.api.core.util.UUIDUtils;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +46,8 @@ public class ChannelService extends BaseCrudService<Channel, ChannelRequestVO, C
   private final ParserProvider provider;
 
   private final CategoryRepository categoryRepository;
+
+  private final ApplicationEventPublisher publisher;
 
   @Override
   protected Channel createEntity(ChannelRequestVO vo, UUID id, Object... args) {
@@ -116,6 +120,19 @@ public class ChannelService extends BaseCrudService<Channel, ChannelRequestVO, C
       log.error("Unable to fetch channel contents", ex);
       throw new UncheckedIOException("Unable to fetch channel contents", ex);
     }
+  }
+
+  @Override
+  @Transactional(propagation = Propagation.REQUIRED)
+  public void delete(UUID id, Object... args) {
+
+    log.debug("Delete {} = {}", getEntityClass().getSimpleName(), id);
+
+    Channel entity = getEntity(id, args);
+
+    publisher.publishEvent(new ChannelRemovedApplicationEvent(this, id));
+
+    repository.delete(entity);
   }
 
   @Override

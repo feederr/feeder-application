@@ -1,6 +1,7 @@
 package org.feeder.api.application.compilation.vo;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,5 +10,5 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class CompilationRequestVO extends CompilationBaseVO {
 
-  private List<UUID> channels;
+  private Set<UUID> channels;
 }

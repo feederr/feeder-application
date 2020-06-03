@@ -4,9 +4,13 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.feeder.api.application.channel.ChannelRepository;
 import org.feeder.api.application.channel.entity.Channel;
+import org.feeder.api.application.channel.event.inbound.ChannelSubscribedApplicationEvent;
+import org.feeder.api.application.channel.event.inbound.ChannelUnsubscribedApplicationEvent;
 import org.feeder.api.application.compilation.CompilationMapper;
 import org.feeder.api.application.compilation.CompilationRepository;
 import org.feeder.api.application.compilation.entity.Compilation;
@@ -16,8 +20,12 @@ import org.feeder.api.core.exception.EntityNotFoundException;
 import org.feeder.api.core.mapper.BaseMapper;
 import org.feeder.api.core.search.JpaSpecificationRepository;
 import org.feeder.api.core.service.BaseCrudService;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CompilationService extends
@@ -29,6 +37,8 @@ public class CompilationService extends
 
   private final ChannelRepository channelRepository;
 
+  private final ApplicationEventPublisher publisher;
+
   @Override
   protected Compilation createEntity(CompilationRequestVO vo, UUID id, Object... args) {
 
@@ -38,6 +48,12 @@ public class CompilationService extends
 
     entity.setChannels(channels);
     entity.setNew(true);
+
+    channels.forEach(
+        channel -> publisher.publishEvent(
+            new ChannelSubscribedApplicationEvent(this, channel.getId())
+        )
+    );
 
     return repository.save(entity);
   }
@@ -49,9 +65,49 @@ public class CompilationService extends
 
     Set<Channel> channels = getChannels(vo);
 
+    Set<UUID> newChannels = channels.stream().map(Channel::getId)
+        .collect(Collectors.toSet());
+    Set<UUID> oldChannels = entity.getChannels().stream().map(Channel::getId)
+        .collect(Collectors.toSet());
+
+    Set<UUID> addedChannels = newChannels.stream()
+        .filter(newChannel -> !oldChannels.contains(newChannel))
+        .collect(Collectors.toSet());
+    Set<UUID> removedChannels = oldChannels.stream()
+        .filter(oldChannel -> !newChannels.contains(oldChannel))
+        .collect(Collectors.toSet());
+
+    addedChannels.forEach(
+        channel -> publisher.publishEvent(
+            new ChannelSubscribedApplicationEvent(this, channel)
+        )
+    );
+    removedChannels.forEach(
+        channel -> publisher.publishEvent(
+            new ChannelUnsubscribedApplicationEvent(this, channel)
+        )
+    );
+
     entity.setChannels(channels);
 
     return repository.save(entity);
+  }
+
+  @Override
+  @Transactional(propagation = Propagation.REQUIRED)
+  public void delete(UUID id, Object... args) {
+
+    log.debug("Delete {} = {}", getEntityClass().getSimpleName(), id);
+
+    Compilation entity = getEntity(id, args);
+
+    entity.getChannels().forEach(
+        channel -> publisher.publishEvent(
+            new ChannelUnsubscribedApplicationEvent(this, channel.getId())
+        )
+    );
+
+    repository.delete(entity);
   }
 
   @Override

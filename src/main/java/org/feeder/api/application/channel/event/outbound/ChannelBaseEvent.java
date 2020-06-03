@@ -1,4 +1,4 @@
-package org.feeder.api.application.item.event;
+package org.feeder.api.application.channel.event.outbound;
 
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ItemViewedEvent {
+public class ChannelBaseEvent {
 
-  private UUID itemId;
+  private UUID channelId;
 }

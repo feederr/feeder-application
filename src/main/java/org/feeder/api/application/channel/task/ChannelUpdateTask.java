@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.feeder.api.application.channel.ChannelRepository;
 import org.feeder.api.application.channel.entity.Channel;
-import org.feeder.api.application.channel.event.ChannelUpdateEvent;
+import org.feeder.api.application.channel.event.inbound.ChannelUpdateApplicationEvent;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
@@ -39,7 +39,7 @@ public class ChannelUpdateTask {
       Page<Channel> channelPage = channelRepository.findAll(pageRequest);
 
       if (!channelPage.isEmpty()) {
-        ChannelUpdateEvent event = new ChannelUpdateEvent(this,
+        ChannelUpdateApplicationEvent event = new ChannelUpdateApplicationEvent(this,
             channelPage.getContent()
                 .stream()
                 .map(Channel::getId)
