@@ -38,19 +38,19 @@ public class ChannelApplicationEventListener {
   }
 
   @Async
-  @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+  @EventListener
   public void listenChannelSubscribedEvent(ChannelSubscribedApplicationEvent event) {
     producer.produceChannelSubscribedEvent(event.getChannelId());
   }
 
   @Async
-  @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+  @EventListener
   public void listenChannelUnsubscribedEvent(ChannelUnsubscribedApplicationEvent event) {
     producer.produceChannelUnsubscribedEvent(event.getChannelId());
   }
 
   @Async
-  @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+  @EventListener
   public void listenChannelRemovedEvent(ChannelRemovedApplicationEvent event) {
     producer.produceChannelRemovedEvent(event.getChannelId());
   }

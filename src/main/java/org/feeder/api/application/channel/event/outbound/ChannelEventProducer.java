@@ -24,7 +24,7 @@ public class ChannelEventProducer {
   private String channelUnsubscribedTopic;
 
   @Value(CHANNEL_REMOVED_TOPIC)
-  private String channelRemoveTopic;
+  private String channelRemovedTopic;
 
   public void produceChannelSubscribedEvent(UUID channelId) {
 
@@ -44,7 +44,7 @@ public class ChannelEventProducer {
     log.debug(
         "{} producing {} for channel: {} to topic: {}",
         ChannelEventProducer.class.getSimpleName(),
-        ChannelSubscribedEvent.class.getSimpleName(),
+        ChannelUnsubscribedEvent.class.getSimpleName(),
         channelId,
         channelUnsubscribedTopic
     );
@@ -57,11 +57,11 @@ public class ChannelEventProducer {
     log.debug(
         "{} producing {} for channel: {} to topic: {}",
         ChannelEventProducer.class.getSimpleName(),
-        ChannelSubscribedEvent.class.getSimpleName(),
+        ChannelRemovedEvent.class.getSimpleName(),
         channelId,
-        channelRemoveTopic
+        channelRemovedTopic
     );
 
-    kafkaTemplate.send(channelRemoveTopic, new ChannelRemovedEvent(channelId));
+    kafkaTemplate.send(channelRemovedTopic, new ChannelRemovedEvent(channelId));
   }
 }
