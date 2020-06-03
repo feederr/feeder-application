@@ -48,6 +48,8 @@ security:
 
 feeder:
   kafka:
+    topics:
+      item-viewed: communication-item-viewed
     enabled: true
   security:
     hierarchy.authorityPattern: >
