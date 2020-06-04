@@ -1,4 +1,4 @@
-package org.feeder.api.application.item.event.outbound;
+package org.feeder.api.application.item.event.external;
 
 import static org.feeder.api.application.common.KafkaTopics.ITEM_REMOVED_TOPIC;
 import static org.feeder.api.application.common.KafkaTopics.ITEM_VIEWED_TOPIC;

@@ -1,4 +1,4 @@
-package org.feeder.api.application.item.event.inbound;
+package org.feeder.api.application.item.event.internal;
 
 import java.util.UUID;
 import lombok.EqualsAndHashCode;

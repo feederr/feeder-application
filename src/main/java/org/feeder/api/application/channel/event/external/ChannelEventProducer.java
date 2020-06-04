@@ -1,4 +1,4 @@
-package org.feeder.api.application.channel.event.outbound;
+package org.feeder.api.application.channel.event.external;
 
 import static org.feeder.api.application.common.KafkaTopics.CHANNEL_REMOVED_TOPIC;
 import static org.feeder.api.application.common.KafkaTopics.CHANNEL_SUBSCRIBED_TOPIC;

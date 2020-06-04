@@ -1,18 +1,16 @@
-package org.feeder.api.application.channel.event.inbound;
+package org.feeder.api.application.channel.event.internal;
 
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.feeder.api.application.channel.event.outbound.ChannelEventProducer;
+import org.feeder.api.application.channel.event.external.ChannelEventProducer;
 import org.feeder.api.application.channel.service.ChannelService;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.event.TransactionPhase;
-import org.springframework.transaction.event.TransactionalEventListener;
 
 @Slf4j
 @Component

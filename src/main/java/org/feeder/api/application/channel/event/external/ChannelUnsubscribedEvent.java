@@ -1,4 +1,4 @@
-package org.feeder.api.application.channel.event.outbound;
+package org.feeder.api.application.channel.event.external;
 
 import java.util.UUID;
 import lombok.Data;

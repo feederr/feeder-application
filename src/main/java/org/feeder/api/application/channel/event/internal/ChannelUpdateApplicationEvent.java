@@ -1,4 +1,4 @@
-package org.feeder.api.application.channel.event.inbound;
+package org.feeder.api.application.channel.event.internal;
 
 import java.util.List;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package org.feeder.api.application.channel.event.inbound;
+package org.feeder.api.application.channel.event.internal;
 
 import java.util.UUID;
 import lombok.EqualsAndHashCode;
@@ -9,13 +9,13 @@ import org.springframework.context.ApplicationEvent;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-public class ChannelSubscribedApplicationEvent extends ApplicationEvent {
+public class ChannelRemovedApplicationEvent extends ApplicationEvent {
 
-  private static final long serialVersionUID = -1941742169147065229L;
+  private static final long serialVersionUID = -1844015757903592624L;
 
   private final UUID channelId;
 
-  public ChannelSubscribedApplicationEvent(Object source, UUID channelId) {
+  public ChannelRemovedApplicationEvent(Object source, UUID channelId) {
     super(source);
     this.channelId = channelId;
   }

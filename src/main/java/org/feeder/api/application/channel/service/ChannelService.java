@@ -18,7 +18,7 @@ import org.feeder.api.application.category.entity.Category;
 import org.feeder.api.application.channel.ChannelMapper;
 import org.feeder.api.application.channel.ChannelRepository;
 import org.feeder.api.application.channel.entity.Channel;
-import org.feeder.api.application.channel.event.inbound.ChannelRemovedApplicationEvent;
+import org.feeder.api.application.channel.event.internal.ChannelRemovedApplicationEvent;
 import org.feeder.api.application.channel.vo.ChannelRequestVO;
 import org.feeder.api.application.channel.vo.ChannelResponseVO;
 import org.feeder.api.application.item.entity.Item;

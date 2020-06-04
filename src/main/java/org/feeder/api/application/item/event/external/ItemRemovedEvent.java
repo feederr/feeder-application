@@ -1,4 +1,4 @@
-package org.feeder.api.application.item.event.outbound;
+package org.feeder.api.application.item.event.external;
 
 import java.util.UUID;
 import lombok.AllArgsConstructor;

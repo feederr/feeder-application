@@ -1,7 +1,7 @@
-package org.feeder.api.application.item.event.inbound;
+package org.feeder.api.application.item.event.internal;
 
 import lombok.RequiredArgsConstructor;
-import org.feeder.api.application.item.event.outbound.ItemEventProducer;
+import org.feeder.api.application.item.event.external.ItemEventProducer;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
