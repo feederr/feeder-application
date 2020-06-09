@@ -19,7 +19,7 @@ Authorization: Bearer {{accessToken}}
 
 ### GET CHANNEL
 
-GET {{application}}/channel/11eaaa99-9adc-5338-993c-8f5f6ffe3894 HTTP/1.1
+GET {{application}}/channel/{{channelId}} HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
