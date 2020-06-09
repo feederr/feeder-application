@@ -11,7 +11,7 @@ databaseChangeLog:
               - column:
                   constraints:
                     primaryKey: true
-                  name: im_id
+                  name: ch_id
                   type: BINARY(16)
               - column:
                   name: im_title
@@ -28,3 +28,18 @@ databaseChangeLog:
                   defaultValueComputed: now()
                   type: datetime
             tableName: image
+
+  - changeSet:
+      id: create-foreign-key-to-channel-in-image-table
+      author: voroshen.av@gmail.com
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: fk_image_ch_id
+            baseColumnNames: ch_id
+            baseTableName: image
+            referencedColumnNames: ch_id
+            referencedTableName: channel
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: CASCADE
+            onUpdate: CASCADE

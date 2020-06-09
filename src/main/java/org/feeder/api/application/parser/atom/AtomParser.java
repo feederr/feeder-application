@@ -1,6 +1,6 @@
 package org.feeder.api.application.parser.atom;
 
-import java.io.InputStream;
+import java.net.URL;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.feeder.api.application.channel.entity.Channel;
@@ -20,7 +20,7 @@ public class AtomParser implements Parser {
   }
 
   @Override
-  public Channel parse(InputStream is) {
+  public Channel parse(URL url) {
     throw new UnsupportedOperationException("Not implemented!");
   }
 }

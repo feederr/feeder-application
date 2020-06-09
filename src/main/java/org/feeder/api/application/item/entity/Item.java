@@ -2,11 +2,13 @@ package org.feeder.api.application.item.entity;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -18,6 +20,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.feeder.api.application.channel.entity.Channel;
 import org.feeder.api.core.domain.BaseEntity;
+import org.hibernate.annotations.Type;
 
 @Data
 @Entity
@@ -36,8 +39,9 @@ public class Item extends BaseEntity<UUID> {
   @Column(name = "it_title")
   private String title;
 
-  @Size(max = 5000)
+  @Type(type = "text")
   @Column(name = "it_description")
+  @Basic( fetch = FetchType.LAZY )
   private String description;
 
   @Size(max = 3000)

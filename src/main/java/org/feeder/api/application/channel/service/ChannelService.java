@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -64,9 +65,12 @@ public class ChannelService extends BaseCrudService<Channel, ChannelRequestVO, C
         item.setId(UUIDUtils.optimizedUUID());
         item.setNew(true);
       });
+      if (entity.getImage() != null) {
+        entity.getImage().setId(UUIDUtils.optimizedUUID());
+        entity.getImage().setNew(true);
+      }
       entity.setNew(true);
-
-      entity.addCategories(categories);
+      entity.setCategories(categories);
 
       return repository.save(entity);
 
@@ -111,7 +115,8 @@ public class ChannelService extends BaseCrudService<Channel, ChannelRequestVO, C
           savedChannel.setDescription(recentChannel.getDescription());
           savedChannel.setCopyright(recentChannel.getCopyright());
           savedChannel.setTitle(recentChannel.getTitle());
-          savedChannel.addItems(itemsToAdd);
+          savedChannel.setItems(itemsToAdd);
+          savedChannel.setImage(recentChannel.getImage());
 
           repository.save(savedChannel);
         }
@@ -160,16 +165,18 @@ public class ChannelService extends BaseCrudService<Channel, ChannelRequestVO, C
 
     Set<Category> categories = new HashSet<>();
 
-    for (UUID categoryId : vo.getCategories()) {
-      Optional<Category> categoryOpt = categoryRepository.findById(categoryId);
-      categories.add(
-          categoryOpt.orElseThrow(
-              () -> new EntityNotFoundException(
-                  String.format("%s = %s not found", Category.class.getSimpleName(), categoryId),
-                  Category.class,
-                  categoryId
-              ))
-      );
+    if (Objects.nonNull(vo.getCategories())) {
+      for (UUID categoryId : vo.getCategories()) {
+        Optional<Category> categoryOpt = categoryRepository.findById(categoryId);
+        categories.add(
+            categoryOpt.orElseThrow(
+                () -> new EntityNotFoundException(
+                    String.format("%s = %s not found", Category.class.getSimpleName(), categoryId),
+                    Category.class,
+                    categoryId
+                ))
+        );
+      }
     }
 
     return categories;
@@ -180,7 +187,7 @@ public class ChannelService extends BaseCrudService<Channel, ChannelRequestVO, C
     URL url = new URL(link);
     Parser parser = provider.provide(getByContentType(extract(url)));
 
-    return parser.parse(url.openStream());
+    return parser.parse(url);
   }
 
   private boolean isUniqueItem(List<Item> existingItems, Item recentItem) {

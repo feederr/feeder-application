@@ -1,32 +1,23 @@
 package org.feeder.api.application.parser.rss;
 
-import static org.feeder.api.application.parser.rss.SupportedRssTags.AUTHOR;
-import static org.feeder.api.application.parser.rss.SupportedRssTags.COPYRIGHT;
-import static org.feeder.api.application.parser.rss.SupportedRssTags.DESCRIPTION;
-import static org.feeder.api.application.parser.rss.SupportedRssTags.LINK;
-import static org.feeder.api.application.parser.rss.SupportedRssTags.PUB_DATE;
-import static org.feeder.api.application.parser.rss.SupportedRssTags.TITLE;
-import static org.feeder.api.application.parser.rss.SupportedRssTags.isAuthor;
-import static org.feeder.api.application.parser.rss.SupportedRssTags.isCopyright;
-import static org.feeder.api.application.parser.rss.SupportedRssTags.isDescription;
-import static org.feeder.api.application.parser.rss.SupportedRssTags.isItem;
-import static org.feeder.api.application.parser.rss.SupportedRssTags.isLink;
-import static org.feeder.api.application.parser.rss.SupportedRssTags.isPubDate;
-import static org.feeder.api.application.parser.rss.SupportedRssTags.isTitle;
 import static org.feeder.api.application.parser.util.PubDateConverter.toLocalDateTime;
-import static org.feeder.api.application.parser.util.XmlHelper.extractTagName;
-import static org.feeder.api.application.parser.util.XmlHelper.extractTagValue;
-import static org.feeder.api.application.parser.util.XmlHelper.isEndTag;
-import static org.feeder.api.application.parser.util.XmlHelper.isStartTag;
-import java.io.InputStream;
-import java.util.HashMap;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.XMLEvent;
+import com.sun.syndication.feed.synd.SyndContent;
+import com.sun.syndication.feed.synd.SyndEntry;
+import com.sun.syndication.feed.synd.SyndFeed;
+import com.sun.syndication.feed.synd.SyndImage;
+import com.sun.syndication.io.FeedException;
+import com.sun.syndication.io.SyndFeedInput;
+import com.sun.syndication.io.XmlReader;
+import java.io.IOException;
+import java.net.URL;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.feeder.api.application.channel.entity.Channel;
+import org.feeder.api.application.channel.image.entity.Image;
 import org.feeder.api.application.item.entity.Item;
 import org.feeder.api.application.parser.Parser;
 import org.feeder.api.application.parser.exception.ParseFailedException;
@@ -47,82 +38,56 @@ public class RssParser implements Parser {
 
   // TODO: add image
   @Override
-  public Channel parse(InputStream is) {
-
-    Channel channel = null;
-
+  public Channel parse(URL url) {
     try {
 
-      var inputFactory = XMLInputFactory.newInstance();
-      var reader = inputFactory.createXMLEventReader(is);
-      var context = new HashMap<SupportedRssTags, String>(SupportedRssTags.values().length);
+      SyndFeedInput input = new SyndFeedInput();
+      SyndFeed feed = input.build(new XmlReader(url));
 
-      while (reader.hasNext()) {
+      Channel channel = new Channel();
 
-        XMLEvent event = reader.nextEvent();
+      channel.setTitle(feed.getTitle());
+      channel.setDescription(feed.getDescription());
+      channel.setLink(feed.getLink());
+      channel.setCopyright(feed.getCopyright());
+      channel.setPubDate(toLocalDateTime(feed.getPublishedDate()));
+      channel.setAuthor(feed.getAuthor());
+      channel.setImage(mapImage(feed.getImage()));
+      channel.setItems(mapItems((List<SyndEntry>) feed.getEntries()));
 
-        if (isStartTag(event)) {
+      return channel;
 
-          String tagName = extractTagName(event);
-
-          if (isItem(tagName) && channel == null) {
-
-            channel = Channel.builder()
-                .copyright(context.get(COPYRIGHT))
-                .description(context.get(DESCRIPTION))
-                .link(context.get(LINK))
-                .pubDate(toLocalDateTime(context.get(PUB_DATE)))
-                .author(context.get(AUTHOR))
-                .title(context.get(TITLE))
-                .build();
-
-            context.clear();
-
-          } else if (isCopyright(tagName)) {
-            context.put(COPYRIGHT, extractTagValue(reader));
-          } else if (isLink(tagName)) {
-            context.put(LINK, extractTagValue(reader));
-          } else if (isDescription(tagName)) {
-            context.put(DESCRIPTION, extractTagValue(reader));
-          } else if (isPubDate(tagName)) {
-            context.put(PUB_DATE, extractTagValue(reader));
-          } else if (isTitle(tagName)) {
-            context.put(TITLE, extractTagValue(reader));
-          } else if (isAuthor(tagName)) {
-            context.put(AUTHOR, extractTagValue(reader));
-          }
-
-          continue;
-        }
-
-        if (isEndTag(event)) {
-
-          String tagName = extractTagName(event);
-
-          if (isItem(tagName)) {
-
-            Item item = Item.builder()
-                .description(context.get(DESCRIPTION))
-                .link(context.get(LINK))
-                .pubDate(toLocalDateTime(context.get(PUB_DATE)))
-                .title(context.get(TITLE))
-                .build();
-
-            if (channel == null) {
-              throw new ParseFailedException("Incorrect tag structure in provided file");
-            }
-
-            channel.addItem(item);
-            context.clear();
-          }
-        }
-      }
-
-    } catch (XMLStreamException ex) {
+    } catch (FeedException | IOException ex) {
       log.warn("Parsing failed with: {}", ex.getMessage(), ex);
       throw new ParseFailedException("Parsing failed", ex);
     }
+  }
 
-    return channel;
+  private List<Item> mapItems(List<SyndEntry> syndEntries) {
+    return syndEntries.stream()
+        .map(this::mapItem)
+        .collect(Collectors.toList());
+  }
+
+  private Item mapItem(SyndEntry entry) {
+    return Item.builder()
+        .title(entry.getTitle())
+        .description(
+            Optional.ofNullable(entry.getDescription())
+                .map(SyndContent::getValue)
+                .orElse(null)
+        )
+        .link(entry.getLink())
+        .pubDate(toLocalDateTime(entry.getPublishedDate()))
+        .build();
+  }
+
+  private Image mapImage(SyndImage syndImage) {
+    return Optional.ofNullable(syndImage)
+        .map(image -> Image.builder()
+            .title(image.getTitle())
+            .url(image.getUrl())
+            .build())
+        .orElse(null);
   }
 }
