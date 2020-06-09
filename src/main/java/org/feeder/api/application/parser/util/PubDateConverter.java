@@ -1,7 +1,9 @@
 package org.feeder.api.application.parser.util;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -14,5 +16,11 @@ public final class PubDateConverter {
 
   public static LocalDateTime toLocalDateTime(String pubDate, DateTimeFormatter formatter) {
     return LocalDateTime.parse(pubDate, formatter);
+  }
+
+  public static LocalDateTime toLocalDateTime(Date pubDate) {
+    return pubDate.toInstant()
+        .atZone(ZoneId.systemDefault())
+        .toLocalDateTime();
   }
 }

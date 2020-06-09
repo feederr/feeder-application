@@ -16,22 +16,22 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.feeder.api.application.category.entity.Category;
+import org.feeder.api.application.channel.image.entity.Image;
 import org.feeder.api.application.compilation.entity.Compilation;
 import org.feeder.api.application.item.entity.Item;
 import org.feeder.api.core.domain.BaseEntity;
 
 @Data
 @Entity
-@Builder
 @Table(name = "channel")
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
@@ -74,7 +74,6 @@ public class Channel extends BaseEntity<UUID> {
       orphanRemoval = true
   )
   @ToString.Exclude
-  @Builder.Default
   @EqualsAndHashCode.Exclude
   private List<Item> items = new ArrayList<>();
 
@@ -85,7 +84,6 @@ public class Channel extends BaseEntity<UUID> {
       inverseJoinColumns = @JoinColumn(name = "ca_id")
   )
   @ToString.Exclude
-  @Builder.Default
   @EqualsAndHashCode.Exclude
   private Set<Category> categories = new HashSet<>();
 
@@ -94,20 +92,22 @@ public class Channel extends BaseEntity<UUID> {
   @ToString.Exclude
   private Set<Compilation> compilations = new HashSet<>();
 
-  // TODO: add image
-//  @OneToOne(
-//      cascade = CascadeType.ALL,
-//      orphanRemoval = true
-//  )
-//  @JoinColumn(name = "im_id")
-//  private Image image;
+  @OneToOne(
+      mappedBy = "channel",
+      cascade = CascadeType.ALL,
+      fetch = FetchType.LAZY,
+      orphanRemoval = true
+  )
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
+  private Image image;
 
   public void addItem(Item item) {
     this.items.add(item);
     item.setChannel(this);
   }
 
-  public void addItems(List<Item> items) {
+  public void setItems(List<Item> items) {
     items.forEach(this::addItem);
   }
 
@@ -124,12 +124,20 @@ public class Channel extends BaseEntity<UUID> {
     this.categories.add(category);
   }
 
-  public void addCategories(Collection<Category> categories) {
+  public void setCategories(Collection<Category> categories) {
     categories.forEach(this::addCategory);
   }
 
   public void removeCategory(Category category) {
     this.categories.remove(category);
+  }
+
+  public void setImage(Image image) {
+    this.image = image;
+
+    if (image != null) {
+      image.setChannel(this);
+    }
   }
 
   public void removeCategories(Collection<Category> categories) {

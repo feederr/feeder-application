@@ -20,5 +20,7 @@ public class ChannelResponseVO extends ChannelBaseVO {
 
   private String copyright;
 
+  private ImageVO image;
+
   private LocalDateTime pubDate;
 }

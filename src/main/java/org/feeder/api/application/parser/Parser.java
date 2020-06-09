@@ -1,9 +1,9 @@
 package org.feeder.api.application.parser;
 
-import java.io.InputStream;
+import java.net.URL;
 import org.feeder.api.application.channel.entity.Channel;
 
 public interface Parser {
 
-  Channel parse(InputStream is);
+  Channel parse(URL url);
 }

@@ -1,9 +1,11 @@
 package org.feeder.api.application.channel;
 
+import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.feeder.api.application.channel.entity.Channel;
 import org.feeder.api.application.channel.vo.ChannelRequestVO;
 import org.feeder.api.application.channel.vo.ChannelResponseVO;
+import org.feeder.api.application.channel.vo.ImageVO;
 import org.feeder.api.core.mapper.BaseMapper;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -21,7 +23,17 @@ public class ChannelMapper implements BaseMapper<Channel, ChannelRequestVO, Chan
 
   @Override
   public ChannelResponseVO toResponseVO(Channel entity, Object... args) {
-    return mapper.map(entity, ChannelResponseVO.class);
+
+    ChannelResponseVO vo = mapper.map(entity, ChannelResponseVO.class);
+
+    if (Objects.nonNull(entity.getImage())) {
+      ImageVO imageVO = new ImageVO();
+      imageVO.setTitle(entity.getImage().getTitle());
+      imageVO.setUrl(entity.getImage().getUrl());
+      vo.setImage(imageVO);
+    }
+
+    return vo;
   }
 
   @Override

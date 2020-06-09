@@ -15,7 +15,7 @@ databaseChangeLog:
                   type: BINARY(16)
               - column:
                   name: it_description
-                  type: VARCHAR(5000)
+                  type: TEXT
               - column:
                   name: it_link
                   type: VARCHAR(3000)
