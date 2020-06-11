@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 public enum ParserType {
 
   XML(MediaType.APPLICATION_XML),
+  TEXT_XML(MediaType.TEXT_XML),
   RSS(MediaType.APPLICATION_RSS_XML),
   ATOM(MediaType.APPLICATION_ATOM_XML);
 

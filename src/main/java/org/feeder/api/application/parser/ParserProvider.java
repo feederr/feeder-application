@@ -10,6 +10,7 @@ public class ParserProvider {
 
   public Parser provide(ParserType type) {
     switch (type) {
+      case TEXT_XML:
       case XML:
       case RSS:
         return RssParser.getInstance();
