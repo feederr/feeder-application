@@ -20,6 +20,7 @@ import org.feeder.api.application.channel.ChannelMapper;
 import org.feeder.api.application.channel.ChannelRepository;
 import org.feeder.api.application.channel.entity.Channel;
 import org.feeder.api.application.channel.event.internal.ChannelRemovedApplicationEvent;
+import org.feeder.api.application.channel.image.entity.Image;
 import org.feeder.api.application.channel.vo.ChannelRequestVO;
 import org.feeder.api.application.channel.vo.ChannelResponseVO;
 import org.feeder.api.application.item.entity.Item;
@@ -66,7 +67,7 @@ public class ChannelService extends BaseCrudService<Channel, ChannelRequestVO, C
         item.setNew(true);
       });
       if (entity.getImage() != null) {
-        entity.getImage().setId(UUIDUtils.optimizedUUID());
+        entity.getImage().setId(id);
         entity.getImage().setNew(true);
       }
       entity.setNew(true);
@@ -116,7 +117,14 @@ public class ChannelService extends BaseCrudService<Channel, ChannelRequestVO, C
           savedChannel.setCopyright(recentChannel.getCopyright());
           savedChannel.setTitle(recentChannel.getTitle());
           savedChannel.setItems(itemsToAdd);
-          savedChannel.setImage(recentChannel.getImage());
+
+          Image savedImage = savedChannel.getImage();
+          Image recentImage = recentChannel.getImage();
+
+          savedImage.setTitle(recentImage.getTitle());
+          savedImage.setUrl(recentImage.getUrl());
+
+          savedChannel.setImage(savedImage);
 
           repository.save(savedChannel);
         }
