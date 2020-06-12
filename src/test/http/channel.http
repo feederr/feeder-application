@@ -5,10 +5,7 @@ Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
 {
-  "link": "https://www.yahoo.com/news/rss/world",
-  "categories": [
-    "11eaa52d-eee9-bbd7-bc2c-0242ac1f0003"
-  ]
+  "link": "https://www.theguardian.com/world/rss"
 }
 
 > {%
@@ -19,7 +16,7 @@ Authorization: Bearer {{accessToken}}
 
 ### GET CHANNEL
 
-GET {{application}}/channel/{{channelId}} HTTP/1.1
+GET {{application}}/channel/11eaacf1-cc09-78bf-8f02-799586ff6cff HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
