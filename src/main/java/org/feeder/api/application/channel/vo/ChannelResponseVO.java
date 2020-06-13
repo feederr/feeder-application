@@ -1,6 +1,7 @@
 package org.feeder.api.application.channel.vo;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.Data;
@@ -22,5 +23,6 @@ public class ChannelResponseVO extends ChannelBaseVO {
 
   private ImageVO image;
 
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private LocalDateTime pubDate;
 }
